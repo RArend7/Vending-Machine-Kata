@@ -3,9 +3,7 @@
 
 #include <string>
 #include <stack>
-#include "CoinHopper.h"
 #include "CoinContainer.h"
-#include "CoinReturn.h"
 #include "DisplayModule.h"
 #include "MachineInventory.h"
 using namespace std;
@@ -17,20 +15,20 @@ class VendingMachine
         virtual ~VendingMachine();
         void insert_coin(string coin);
         string check_display();
-        void collect_returned_coins();
+        unsigned int collect_returned_coins();
         void select_item(string item);
 
     protected:
 
     private:
         CoinContainer coinContainer;
-        CoinReturn coinReturn;
         DisplayModule displayModule;
         MachineInventory machineInventory;
 
         unsigned int get_value_of_coin(string coin);
 
         stack <string> inserted_coins;
+        stack <string> returned_coins;
         unsigned int inserted_coins_value;
 
         void accept_coin(string coin, unsigned int value);

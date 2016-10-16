@@ -1,11 +1,11 @@
 #include "VendingMachine.h"
 #include <stdio.h>
+#include <iostream>
 using namespace std;
 
 VendingMachine::VendingMachine()
 {
     coinContainer = CoinContainer();
-    coinReturn = CoinReturn();
     displayModule = DisplayModule();
     machineInventory = MachineInventory();
 
@@ -48,12 +48,20 @@ void VendingMachine::accept_coin(string coin, unsigned int value)
 
 void VendingMachine::reject_coin(string coin)
 {
-    coinReturn.deposit(coin);
+    returned_coins.push(coin);
 }
 
-void VendingMachine::collect_returned_coins()
+unsigned int VendingMachine::collect_returned_coins()
 {
-    coinReturn.collect_coins();
+    cout << "Collected coins from the coin return:" << endl;
+    unsigned int total_value = 0;
+    while (!returned_coins.empty())
+    {
+        cout << returned_coins.top() << endl;
+        total_value += get_value_of_coin(returned_coins.top());
+        returned_coins.pop();
+    }
+    return total_value;
 }
 
 void VendingMachine::select_item(string item)
@@ -107,7 +115,7 @@ void VendingMachine::make_change(unsigned int difference)
         }
 
         coinContainer.withdraw(coin_to_return);
-        coinReturn.deposit(coin_to_return);
+        returned_coins.push(coin_to_return);
         difference -= value_of_coin;
     }
 }

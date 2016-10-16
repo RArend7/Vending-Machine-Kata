@@ -97,14 +97,14 @@ void test_change_return()
     string current_display = testVendingMachine.check_display();
     cout << "Inserted 0.85 dollars, spending 0.50, checking display: " << current_display << endl;
     assert(current_display == "THANK YOU");
-    testVendingMachine.collect_returned_coins();
+    assert(testVendingMachine.collect_returned_coins() == 35);
 
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.select_item("candy");
     cout << "Inserted 0.75 dollars, spending 0.65, checking display: " << current_display << endl;
-    testVendingMachine.collect_returned_coins();
+    assert(testVendingMachine.collect_returned_coins() == 10);
 
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.insert_coin("Quarter");
@@ -112,7 +112,7 @@ void test_change_return()
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.select_item("cola");
     cout << "Inserted 1.00 dollars, spending 1.00, checking display: " << current_display << endl;
-    testVendingMachine.collect_returned_coins();
+    assert(testVendingMachine.collect_returned_coins() == 0);
 
     cout << endl;
 }
