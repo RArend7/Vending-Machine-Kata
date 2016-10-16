@@ -23,14 +23,15 @@ class VendingMachine
     protected:
 
     private:
-        CoinHopper coinHopper;
         CoinContainer coinContainer;
         CoinReturn coinReturn;
         DisplayModule displayModule;
         MachineInventory machineInventory;
 
+        unsigned int get_value_of_coin(string coin);
+
         stack <string> inserted_coins;
-        int inserted_coins_value;
+        unsigned int inserted_coins_value;
 
         void accept_coin(string coin, unsigned int value);
         void reject_coin(string coin);

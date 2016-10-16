@@ -4,7 +4,6 @@ using namespace std;
 
 VendingMachine::VendingMachine()
 {
-    coinHopper = CoinHopper();
     coinContainer = CoinContainer();
     coinReturn = CoinReturn();
     displayModule = DisplayModule();
@@ -18,17 +17,25 @@ VendingMachine::~VendingMachine()
     //dtor
 }
 
+unsigned int VendingMachine::get_value_of_coin(string coin)
+{
+    if (coin == "Quarter")
+        return 25;
+    else if (coin == "Dime")
+        return 10;
+    else if (coin == "Nickel")
+        return 5;
+    else
+        return 0;
+}
+
 void VendingMachine::insert_coin(string coin)
 {
-    int coin_value = coinHopper.insert_coin(coin);
+    unsigned int coin_value = get_value_of_coin(coin);
     if (coin_value > 0)
-    {
         accept_coin(coin, coin_value);
-    }
     else
-    {
         reject_coin(coin);
-    }
 }
 
 void VendingMachine::accept_coin(string coin, unsigned int value)
@@ -83,20 +90,20 @@ void VendingMachine::make_change(unsigned int difference)
     unsigned int value_of_coin;
     while (difference > 0)
     {
-        if (difference >= 25)
+        if (difference >= get_value_of_coin("Quarter"))
         {
             coin_to_return = "Quarter";
-            value_of_coin = 25;
+            value_of_coin = get_value_of_coin("Quarter");
         }
-        else if (difference >= 10)
+        else if (difference >= get_value_of_coin("Dime"))
         {
             coin_to_return = "Dime";
-            value_of_coin = 10;
+            value_of_coin = get_value_of_coin("Dime");
         }
-        else if (difference >= 5)
+        else if (difference >= get_value_of_coin("Nickel"))
         {
             coin_to_return = "Nickel";
-            value_of_coin = 5;
+            value_of_coin = get_value_of_coin("Nickel");
         }
 
         coinContainer.withdraw(coin_to_return);
