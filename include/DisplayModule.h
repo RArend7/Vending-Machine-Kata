@@ -17,6 +17,7 @@ class DisplayModule
 
     private:
         string message;
+        string previous_message;
 };
 
 #endif // DISPLAYMODULE_H
