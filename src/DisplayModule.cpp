@@ -20,11 +20,11 @@ void DisplayModule::update_display(string new_message)
     message = new_message;
 }
 
-void DisplayModule::update_display(float new_value)
+void DisplayModule::update_display(unsigned int new_value)
 {
     previous_message = message;
     char buffer [5];
-    sprintf(buffer, "%.2f", new_value);
+    sprintf(buffer, "%.2f", (float)new_value/100);
     string new_string(buffer);
     message = new_string;
 }

@@ -14,3 +14,8 @@ void CoinContainer::deposit(string coin)
 {
     // add new coin to collection
 }
+
+void CoinContainer::withdraw(string coin)
+{
+    // remove coin
+}

@@ -3,9 +3,9 @@
 MachineInventory::MachineInventory()
 {
     //ctor
-    inventory["cola"] = 1.00f;
-    inventory["chips"] = 0.50;
-    inventory["candy"] = 0.65f;
+    inventory["cola"] = 100;
+    inventory["chips"] = 50;
+    inventory["candy"] = 65;
 }
 
 MachineInventory::~MachineInventory()
@@ -13,7 +13,7 @@ MachineInventory::~MachineInventory()
     //dtor
 }
 
-bool MachineInventory::select_item(string item, float money_inserted)
+bool MachineInventory::select_item(string item, unsigned int money_inserted)
 {
     if (inventory[item] <= money_inserted)
         return true;
@@ -21,7 +21,7 @@ bool MachineInventory::select_item(string item, float money_inserted)
         return false;
 }
 
-float MachineInventory::get_item_price(string item)
+unsigned int MachineInventory::get_item_price(string item)
 {
     return inventory[item];
 }

@@ -11,13 +11,13 @@ class MachineInventory
     public:
         MachineInventory();
         virtual ~MachineInventory();
-        bool select_item(string item, float money_inserted);
-        float get_item_price(string item);
+        bool select_item(string item, unsigned int money_inserted);
+        unsigned int get_item_price(string item);
 
     protected:
 
     private:
-        map<string, float> inventory;
+        map<string, unsigned int> inventory;
 };
 
 #endif // MACHINEINVENTORY_H

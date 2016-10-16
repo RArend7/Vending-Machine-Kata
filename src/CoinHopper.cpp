@@ -10,14 +10,14 @@ CoinHopper::~CoinHopper()
     //dtor
 }
 
-float CoinHopper::insert_coin(string coin)
+unsigned int CoinHopper::insert_coin(string coin)
 {
     if (coin == "Quarter")
-        return 0.25f;
+        return 25;
     else if (coin == "Dime")
-        return 0.10f;
+        return 10;
     else if (coin == "Nickel")
-        return 0.05f;
+        return 5;
     else
-        return 0.00f;
+        return 0;
 }

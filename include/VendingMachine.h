@@ -30,13 +30,15 @@ class VendingMachine
         MachineInventory machineInventory;
 
         stack <string> inserted_coins;
-        float inserted_coins_value;
+        int inserted_coins_value;
 
-        void accept_coin(string coin, float value);
+        void accept_coin(string coin, unsigned int value);
         void reject_coin(string coin);
 
         void dispense_item(string item);
         void display_item_price(string item);
+
+        void make_change(unsigned int difference);
 };
 
 #endif // VENDINGMACHINE_H

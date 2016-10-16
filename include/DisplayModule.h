@@ -10,7 +10,7 @@ class DisplayModule
         DisplayModule();
         virtual ~DisplayModule();
         void update_display(string new_message);
-        void update_display(float new_value);
+        void update_display(unsigned int new_value);
         string current_display_value();
 
     protected:

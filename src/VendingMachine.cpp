@@ -10,7 +10,7 @@ VendingMachine::VendingMachine()
     displayModule = DisplayModule();
     machineInventory = MachineInventory();
 
-    inserted_coins_value = 0.00f;
+    inserted_coins_value = 0;
 }
 
 VendingMachine::~VendingMachine()
@@ -20,8 +20,8 @@ VendingMachine::~VendingMachine()
 
 void VendingMachine::insert_coin(string coin)
 {
-    float coin_value = coinHopper.insert_coin(coin);
-    if (coin_value > 0.00f)
+    int coin_value = coinHopper.insert_coin(coin);
+    if (coin_value > 0)
     {
         accept_coin(coin, coin_value);
     }
@@ -31,7 +31,7 @@ void VendingMachine::insert_coin(string coin)
     }
 }
 
-void VendingMachine::accept_coin(string coin, float value)
+void VendingMachine::accept_coin(string coin, unsigned int value)
 {
     coinContainer.deposit(coin);
     inserted_coins.push(coin);
@@ -60,7 +60,8 @@ void VendingMachine::select_item(string item)
 void VendingMachine::dispense_item(string item)
 {
     displayModule.update_display("THANK YOU");
-    inserted_coins_value = 0.00f;
+    make_change(inserted_coins_value - machineInventory.get_item_price(item));
+    inserted_coins_value = 0;
     while (!inserted_coins.empty())
         inserted_coins.pop();
 }
@@ -68,12 +69,40 @@ void VendingMachine::dispense_item(string item)
 void VendingMachine::display_item_price(string item)
 {
     string display_string = "PRICE ";
-    float item_price = machineInventory.get_item_price(item);
+    unsigned int item_price = machineInventory.get_item_price(item);
     char buffer [5];
-    sprintf(buffer, "%.2f", item_price);
+    sprintf(buffer, "%.2f", (float)item_price/100);
     string price_string(buffer);
     display_string += price_string;
     displayModule.update_display(display_string);
+}
+
+void VendingMachine::make_change(unsigned int difference)
+{
+    string coin_to_return;
+    unsigned int value_of_coin;
+    while (difference > 0)
+    {
+        if (difference >= 25)
+        {
+            coin_to_return = "Quarter";
+            value_of_coin = 25;
+        }
+        else if (difference >= 10)
+        {
+            coin_to_return = "Dime";
+            value_of_coin = 10;
+        }
+        else if (difference >= 5)
+        {
+            coin_to_return = "Nickel";
+            value_of_coin = 5;
+        }
+
+        coinContainer.withdraw(coin_to_return);
+        coinReturn.deposit(coin_to_return);
+        difference -= value_of_coin;
+    }
 }
 
 string VendingMachine::check_display()

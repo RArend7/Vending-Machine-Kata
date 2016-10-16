@@ -10,6 +10,7 @@ class CoinContainer
         CoinContainer();
         virtual ~CoinContainer();
         void deposit(string coin);
+        void withdraw(string coin);
 
     protected:
 

@@ -8,11 +8,13 @@ using namespace std;
 
 void test_coin_input();
 void test_item_selection();
+void test_change_return();
 
 int main()
 {
     test_coin_input();
     test_item_selection();
+    test_change_return();
 
     return 0;
 }
@@ -55,6 +57,8 @@ void test_coin_input()
     assert(testVendingMachine.check_display() == "1.15");
 
     testVendingMachine.collect_returned_coins();
+
+    cout << endl;
 }
 
 void test_item_selection()
@@ -78,4 +82,37 @@ void test_item_selection()
 
     cout << "Checking display again: " << testVendingMachine.check_display() << endl;
     assert(testVendingMachine.check_display() == "INSERT COIN");
+
+    cout << endl;
+}
+
+void test_change_return()
+{
+    VendingMachine testVendingMachine;
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Dime");
+    testVendingMachine.select_item("chips");
+    string current_display = testVendingMachine.check_display();
+    cout << "Inserted 0.85 dollars, spending 0.50, checking display: " << current_display << endl;
+    assert(current_display == "THANK YOU");
+    testVendingMachine.collect_returned_coins();
+
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.select_item("candy");
+    cout << "Inserted 0.75 dollars, spending 0.65, checking display: " << current_display << endl;
+    testVendingMachine.collect_returned_coins();
+
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.select_item("cola");
+    cout << "Inserted 1.00 dollars, spending 1.00, checking display: " << current_display << endl;
+    testVendingMachine.collect_returned_coins();
+
+    cout << endl;
 }

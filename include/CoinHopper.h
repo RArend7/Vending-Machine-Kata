@@ -11,7 +11,7 @@ class CoinHopper
         CoinHopper();
         virtual ~CoinHopper();
 
-        float insert_coin(string coin);
+        unsigned int insert_coin(string coin);
 
     protected:
 
