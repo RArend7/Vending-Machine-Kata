@@ -17,6 +17,7 @@ class VendingMachine
         string check_display();
         unsigned int collect_returned_coins();
         void select_item(string item);
+        void return_coins();
 
     protected:
 

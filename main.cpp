@@ -9,12 +9,14 @@ using namespace std;
 void test_coin_input();
 void test_item_selection();
 void test_change_return();
+void test_coin_return();
 
 int main()
 {
     test_coin_input();
     test_item_selection();
     test_change_return();
+    test_coin_return();
 
     return 0;
 }
@@ -115,4 +117,24 @@ void test_change_return()
     assert(testVendingMachine.collect_returned_coins() == 0);
 
     cout << endl;
+}
+
+void test_coin_return()
+{
+    VendingMachine testVendingMachine;
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    cout << "Inserted 4 quarters, returning coins" << endl;
+    testVendingMachine.return_coins();
+    assert(testVendingMachine.collect_returned_coins() == 100);
+
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Dime");
+    testVendingMachine.insert_coin("Nickel");
+    testVendingMachine.insert_coin("Quarter");
+    cout << "Inserted 2 quarters, 1 dime, and 1 nickel: returning coins" << endl;
+    testVendingMachine.return_coins();
+    assert(testVendingMachine.collect_returned_coins() == 65);
 }

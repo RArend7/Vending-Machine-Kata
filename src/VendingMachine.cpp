@@ -120,6 +120,20 @@ void VendingMachine::make_change(unsigned int difference)
     }
 }
 
+void VendingMachine::return_coins()
+{
+    cout << "Depositing coins into the coin return: " << endl;
+    while (!inserted_coins.empty())
+    {
+        string coin = inserted_coins.top();
+        cout << coin << endl;
+        inserted_coins.pop();
+        returned_coins.push(coin);
+    }
+    inserted_coins_value = 0;
+    displayModule.update_display("INSERT COIN");
+}
+
 string VendingMachine::check_display()
 {
     return displayModule.current_display_value();
