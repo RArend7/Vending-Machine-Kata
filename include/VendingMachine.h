@@ -41,6 +41,9 @@ class VendingMachine
         void display_item_price(string item);
 
         void make_change(unsigned int difference);
+
+        bool exact_change_required;
+        void calculate_if_exact_change_needed();
 };
 
 #endif // VENDINGMACHINE_H

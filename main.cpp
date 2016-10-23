@@ -28,7 +28,7 @@ void test_coin_input()
     VendingMachine testVendingMachine;
 
     cout << "Checking display without coins inserted: " << testVendingMachine.check_display() << endl;
-    assert(testVendingMachine.check_display() == "INSERT COIN");
+    assert(testVendingMachine.check_display() == "INSERT COIN" || testVendingMachine.check_display() == "EXACT CHANGE ONLY");
 
     testVendingMachine.insert_coin("Quarter");
     cout << "Inserted quarter, re-checking display: " << testVendingMachine.check_display() << endl;
@@ -82,10 +82,10 @@ void test_item_selection()
     testVendingMachine.select_item("candy");
     current_display = testVendingMachine.check_display();
     cout << "inserted 2 more quarters, selected candy, checking display: " << current_display << endl;
-    assert(current_display == "THANK YOU");
+    assert(current_display == "THANK YOU" || current_display == "EXACT CHANGE ONLY");
 
     cout << "Checking display again: " << testVendingMachine.check_display() << endl;
-    assert(testVendingMachine.check_display() == "INSERT COIN");
+    assert(testVendingMachine.check_display() == "INSERT COIN" || testVendingMachine.check_display() == "EXACT CHANGE ONLY");
 
     cout << endl;
 }

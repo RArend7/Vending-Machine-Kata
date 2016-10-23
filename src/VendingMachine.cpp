@@ -10,6 +10,10 @@ VendingMachine::VendingMachine()
     machineInventory.load_inventory("inventory.txt");
 
     inserted_coins_value = 0;
+    total_quarters = 5;
+    total_dimes = 5;
+    total_nickels = 5;
+    exact_change_required = false;
 }
 
 VendingMachine::~VendingMachine()
@@ -73,10 +77,18 @@ void VendingMachine::select_item(string item)
 {
     if (machineInventory.get_item_quantity(item) > 0)
     {
-        if (machineInventory.select_item(item, inserted_coins_value))
+        if (exact_change_required == true && inserted_coins_value == machineInventory.get_item_price(item))
+        {
+            machineInventory.select_item(item, inserted_coins_value);
             dispense_item(item);
-        else
-            display_item_price(item);
+        }
+        else if (exact_change_required == false)
+        {
+            if (machineInventory.select_item(item, inserted_coins_value))
+                dispense_item(item);
+            else
+                display_item_price(item);
+        }
     }
     else
     {
@@ -86,7 +98,6 @@ void VendingMachine::select_item(string item)
 
 void VendingMachine::dispense_item(string item)
 {
-    displayModule.update_display("THANK YOU");
     make_change(inserted_coins_value - machineInventory.get_item_price(item));
     inserted_coins_value = 0;
     while (!inserted_coins.empty())
@@ -110,19 +121,19 @@ void VendingMachine::make_change(unsigned int difference)
     unsigned int value_of_coin;
     while (difference > 0)
     {
-        if (difference >= get_value_of_coin("Quarter"))
+        if (difference >= get_value_of_coin("Quarter") && total_quarters > 0)
         {
             coin_to_return = "Quarter";
             value_of_coin = get_value_of_coin("Quarter");
             total_quarters -= 1;
         }
-        else if (difference >= get_value_of_coin("Dime"))
+        else if (difference >= get_value_of_coin("Dime") && total_dimes > 0)
         {
             coin_to_return = "Dime";
             value_of_coin = get_value_of_coin("Dime");
             total_dimes -= 1;
         }
-        else if (difference >= get_value_of_coin("Nickel"))
+        else if (difference >= get_value_of_coin("Nickel") && total_nickels > 0)
         {
             coin_to_return = "Nickel";
             value_of_coin = get_value_of_coin("Nickel");
@@ -132,6 +143,19 @@ void VendingMachine::make_change(unsigned int difference)
         returned_coins.push(coin_to_return);
         difference -= value_of_coin;
     }
+    calculate_if_exact_change_needed();
+
+    if (exact_change_required == true)
+    {
+        displayModule.update_display("EXACT CHANGE ONLY");
+        displayModule.update_display("THANK YOU");
+    }
+    else
+    {
+        displayModule.update_display("INSERT COIN");
+        displayModule.update_display("THANK YOU");
+    }
+
 }
 
 void VendingMachine::return_coins()
@@ -151,4 +175,13 @@ void VendingMachine::return_coins()
 string VendingMachine::check_display()
 {
     return displayModule.current_display_value();
+}
+
+void VendingMachine::calculate_if_exact_change_needed()
+{
+    unsigned int value_delta = get_value_of_coin("Quarter") - get_value_of_coin("Nickel");
+    if (total_nickels * get_value_of_coin("Nickel") < value_delta)
+    {
+        exact_change_required = true;
+    }
 }

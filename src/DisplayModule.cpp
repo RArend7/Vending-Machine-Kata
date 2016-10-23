@@ -37,7 +37,7 @@ string DisplayModule::current_display_value()
     // some messages only display once
     if (message == "THANK YOU")
     {
-        update_display("INSERT COIN");
+        update_display(previous_message);
     }
     else if (message == "SOLD OUT")
     {
