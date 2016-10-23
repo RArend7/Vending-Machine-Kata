@@ -1,0 +1,4 @@
+[item] [cost in cents] [quantity]
+cola 100 10
+chips 50 10
+candy 65 1

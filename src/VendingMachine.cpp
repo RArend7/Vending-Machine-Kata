@@ -8,6 +8,7 @@ VendingMachine::VendingMachine()
     coinContainer = CoinContainer();
     displayModule = DisplayModule();
     machineInventory = MachineInventory();
+    machineInventory.load_inventory("inventory.txt");
 
     inserted_coins_value = 0;
 }
@@ -66,10 +67,17 @@ unsigned int VendingMachine::collect_returned_coins()
 
 void VendingMachine::select_item(string item)
 {
-    if (machineInventory.select_item(item, inserted_coins_value))
-        dispense_item(item);
+    if (machineInventory.get_item_quantity(item) > 0)
+    {
+        if (machineInventory.select_item(item, inserted_coins_value))
+            dispense_item(item);
+        else
+            display_item_price(item);
+    }
     else
-        display_item_price(item);
+    {
+        displayModule.update_display("SOLD OUT");
+    }
 }
 
 void VendingMachine::dispense_item(string item)

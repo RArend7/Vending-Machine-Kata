@@ -10,6 +10,7 @@ void test_coin_input();
 void test_item_selection();
 void test_change_return();
 void test_coin_return();
+void test_sold_out_items();
 
 int main()
 {
@@ -17,6 +18,7 @@ int main()
     test_item_selection();
     test_change_return();
     test_coin_return();
+    test_sold_out_items();
 
     return 0;
 }
@@ -105,6 +107,7 @@ void test_change_return()
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.select_item("candy");
+    current_display = testVendingMachine.check_display();
     cout << "Inserted 0.75 dollars, spending 0.65, checking display: " << current_display << endl;
     assert(testVendingMachine.collect_returned_coins() == 10);
 
@@ -113,6 +116,7 @@ void test_change_return()
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.insert_coin("Quarter");
     testVendingMachine.select_item("cola");
+    current_display = testVendingMachine.check_display();
     cout << "Inserted 1.00 dollars, spending 1.00, checking display: " << current_display << endl;
     assert(testVendingMachine.collect_returned_coins() == 0);
 
@@ -137,4 +141,30 @@ void test_coin_return()
     cout << "Inserted 2 quarters, 1 dime, and 1 nickel: returning coins" << endl;
     testVendingMachine.return_coins();
     assert(testVendingMachine.collect_returned_coins() == 65);
+}
+
+void test_sold_out_items()
+{
+    // dispense the last pack of candy
+    VendingMachine testVendingMachine;
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.select_item("candy");
+    string current_display = testVendingMachine.check_display();
+    cout << "Inserted 0.75 dollars, spending 0.65, checking display: " << current_display << endl;
+    assert(current_display == "THANK YOU");
+    assert(testVendingMachine.collect_returned_coins() == 10);
+
+    // try and get the now sold-out candy
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.insert_coin("Quarter");
+    testVendingMachine.select_item("candy");
+    current_display = testVendingMachine.check_display();
+    cout << "Inserted 3 quarters, tried to select a sold out item, checking display: " << current_display << endl;
+    assert(current_display == "SOLD OUT");
+    cout << "User requests a return of coins" << endl;
+    testVendingMachine.return_coins();
+    assert(testVendingMachine.collect_returned_coins() == 75);
 }
