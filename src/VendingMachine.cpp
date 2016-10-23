@@ -5,7 +5,6 @@ using namespace std;
 
 VendingMachine::VendingMachine()
 {
-    coinContainer = CoinContainer();
     displayModule = DisplayModule();
     machineInventory = MachineInventory();
     machineInventory.load_inventory("inventory.txt");
@@ -33,7 +32,7 @@ unsigned int VendingMachine::get_value_of_coin(string coin)
 void VendingMachine::insert_coin(string coin)
 {
     unsigned int coin_value = get_value_of_coin(coin);
-    if (coin_value > 0)
+    if (coin_value > 0 && inserted_coins_value < machineInventory.highest_item_value)
         accept_coin(coin, coin_value);
     else
         reject_coin(coin);
@@ -41,7 +40,12 @@ void VendingMachine::insert_coin(string coin)
 
 void VendingMachine::accept_coin(string coin, unsigned int value)
 {
-    coinContainer.deposit(coin);
+    if (coin == "Quarter")
+        total_quarters += 1;
+    else if (coin == "Dime")
+        total_dimes += 1;
+    else if (coin == "Nickel")
+        total_nickels += 1;
     inserted_coins.push(coin);
     inserted_coins_value += value;
     displayModule.update_display(inserted_coins_value);
@@ -110,19 +114,21 @@ void VendingMachine::make_change(unsigned int difference)
         {
             coin_to_return = "Quarter";
             value_of_coin = get_value_of_coin("Quarter");
+            total_quarters -= 1;
         }
         else if (difference >= get_value_of_coin("Dime"))
         {
             coin_to_return = "Dime";
             value_of_coin = get_value_of_coin("Dime");
+            total_dimes -= 1;
         }
         else if (difference >= get_value_of_coin("Nickel"))
         {
             coin_to_return = "Nickel";
             value_of_coin = get_value_of_coin("Nickel");
+            total_nickels -= 1;
         }
 
-        coinContainer.withdraw(coin_to_return);
         returned_coins.push(coin_to_return);
         difference -= value_of_coin;
     }

@@ -3,7 +3,6 @@
 
 #include <string>
 #include <stack>
-#include "CoinContainer.h"
 #include "DisplayModule.h"
 #include "MachineInventory.h"
 using namespace std;
@@ -22,7 +21,6 @@ class VendingMachine
     protected:
 
     private:
-        CoinContainer coinContainer;
         DisplayModule displayModule;
         MachineInventory machineInventory;
 
@@ -31,6 +29,10 @@ class VendingMachine
         stack <string> inserted_coins;
         stack <string> returned_coins;
         unsigned int inserted_coins_value;
+
+        unsigned int total_quarters;
+        unsigned int total_dimes;
+        unsigned int total_nickels;
 
         void accept_coin(string coin, unsigned int value);
         void reject_coin(string coin);

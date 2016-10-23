@@ -6,12 +6,11 @@ using namespace std;
 
 MachineInventory::MachineInventory()
 {
-    //ctor
+    highest_item_value = 0;
 }
 
 MachineInventory::~MachineInventory()
 {
-    //dtor
     // We'd need to save the existing inventory to the inventory file
     // for the purposes of being able to repeatedly run the assertions, I've not included it here
 }
@@ -54,6 +53,9 @@ void MachineInventory::load_inventory(string filename)
         temp_data.price = atoi(cost.c_str());
         temp_data.quantity = atoi(quantity.c_str());
         inventory[item] = temp_data;
+
+        if (temp_data.price > highest_item_value)
+            highest_item_value = temp_data.price;
     }
 
 

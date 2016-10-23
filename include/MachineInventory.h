@@ -22,6 +22,8 @@ class MachineInventory
         unsigned int get_item_price(string item);
         unsigned int get_item_quantity(string item);
 
+        unsigned int highest_item_value;
+
     protected:
 
     private:
